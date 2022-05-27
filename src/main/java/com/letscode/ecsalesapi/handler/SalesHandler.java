@@ -1,0 +1,52 @@
+package com.letscode.ecsalesapi.handler;
+
+import com.letscode.ecsalesapi.domain.SaleRequest;
+import com.letscode.ecsalesapi.domain.SaleResponse;
+import com.letscode.ecsalesapi.repository.SalesRepository;
+import com.letscode.ecsalesapi.service.SalesService;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
+
+import java.net.URI;
+
+@Component
+public class SalesHandler {
+
+    private final SalesService salesService;
+    private final SalesRepository salesRepository;
+
+    public SalesHandler(SalesService salesService, SalesRepository salesRepository) {
+        this.salesService = salesService;
+        this.salesRepository = salesRepository;
+    }
+
+    public Mono<ServerResponse> addSale(ServerRequest request) {
+        return request.bodyToMono(SaleRequest.class)
+                .flatMap(salesService::addSale)
+                .flatMap(salesRepository::save)
+                .flatMap(saleEntity -> ServerResponse
+                        .created(URI.create(String.format("/sales/{saleId}", saleEntity.getId())))
+                        .bodyValue(new SaleResponse(saleEntity)))
+                .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("Invalid user. Check data imput."));
+    }
+
+    public Mono<ServerResponse> getSalesByUser(ServerRequest request) {
+        return request.bodyToMono(SaleRequest.class)
+                .flatMap(salesService::getSalesByUser)
+                .flatMap(saleEntities -> ServerResponse
+                        .ok().bodyValue(saleEntities))
+                .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("Invalid user. Check data imput."));
+
+    }
+
+    public Mono<ServerResponse> getSaleById(ServerRequest request) {
+        return Mono.just(request.pathVariable("id"))
+                .flatMap(salesService::getSaleById)
+                .flatMap(saleEntity -> ServerResponse
+                        .ok().bodyValue(saleEntity))
+                .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("Invalid sale. Check data imput."));
+    }
+
+}
