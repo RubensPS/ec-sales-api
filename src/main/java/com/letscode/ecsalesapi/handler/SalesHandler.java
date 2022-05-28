@@ -27,14 +27,15 @@ public class SalesHandler {
                 .flatMap(salesService::addSale)
                 .flatMap(salesRepository::save)
                 .flatMap(saleEntity -> ServerResponse
-                        .created(URI.create(String.format("/sales/{saleId}", saleEntity.getId())))
+                        .created(URI.create(String.format("/sales/%s", saleEntity.getId())))
                         .bodyValue(new SaleResponse(saleEntity)))
                 .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("Invalid user. Check data imput."));
     }
 
     public Mono<ServerResponse> getSalesByUser(ServerRequest request) {
-        return request.bodyToMono(SaleRequest.class)
+        return request.bodyToFlux(SaleRequest.class)
                 .flatMap(salesService::getSalesByUser)
+                .collectList()
                 .flatMap(saleEntities -> ServerResponse
                         .ok().bodyValue(saleEntities))
                 .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("Invalid user. Check data imput."));
@@ -42,11 +43,17 @@ public class SalesHandler {
     }
 
     public Mono<ServerResponse> getSaleById(ServerRequest request) {
-        return Mono.just(request.pathVariable("id"))
+        return Mono.just(request.pathVariable("saleId"))
                 .flatMap(salesService::getSaleById)
                 .flatMap(saleEntity -> ServerResponse
                         .ok().bodyValue(saleEntity))
                 .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("Invalid sale. Check data imput."));
+    }
+
+    public Mono<ServerResponse> deleteSale(ServerRequest request) {
+        return Mono.just(request.pathVariable("saleId"))
+                .flatMap(salesService::deleteSaleById)
+                .flatMap(r -> ServerResponse.noContent().build());
     }
 
 }

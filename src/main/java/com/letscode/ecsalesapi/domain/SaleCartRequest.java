@@ -9,10 +9,10 @@ import java.util.Map;
 @Getter
 @Setter
 public class SaleCartRequest {
-    private String cartId;
-    private String userId;
+    private String id;
+    private Integer userId;
     private Boolean isActiveStatus;
     private BigDecimal totalPrice;
-    private Map<String, Long> products;
+    private Map<String, BigDecimal> products;
 
 }

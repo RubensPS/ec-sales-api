@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Map;
 
 @Document(collection = "sales")
@@ -18,19 +18,19 @@ import java.util.Map;
 public class SaleEntity {
     @Id
     private String id;
-    private String userId;
+    private Integer userId;
     private String cartId;
     private BigDecimal totalSalePrice;
-    private ZonedDateTime dateCreated;
+    private Instant dateCreated;
 
     @Field
-    private Map<String, Long> products;
+    private Map<String, BigDecimal> products;
 
     public SaleEntity(SaleCartRequest saleCartRequest) {
         this.userId = saleCartRequest.getUserId();
-        this.cartId = saleCartRequest.getCartId();
+        this.cartId = saleCartRequest.getId();
         this.totalSalePrice = saleCartRequest.getTotalPrice();
-        this.dateCreated = ZonedDateTime.now();
+        this.dateCreated = Instant.now();
         this.products = saleCartRequest.getProducts();
     }
 

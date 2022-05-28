@@ -6,9 +6,10 @@ import com.letscode.ecsalesapi.gateway.CartsGateway;
 import com.letscode.ecsalesapi.gateway.UsersGateway;
 import com.letscode.ecsalesapi.repository.SalesRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SalesService {
@@ -30,13 +31,19 @@ public class SalesService {
         ).map(tupla ->  new SaleEntity(tupla.getT2()));
     }
 
-    public Mono<List<SaleEntity>> getSalesByUser(SaleRequest saleRequest) {
-        return Mono.just(saleRequest.getUserId())
+    public Flux<SaleEntity> getSalesByUser(SaleRequest saleRequest) {
+        return Flux.just(saleRequest.getUserId())
                 .flatMap(id -> salesRepository.findAllByUserId(id));
     }
 
     public Mono<SaleEntity> getSaleById(String id) {
         return Mono.just(id)
                 .flatMap(saleId -> salesRepository.findById(saleId));
+    }
+
+    public Mono<Void> deleteSaleById(String saleId) {
+        return Mono.just(saleId)
+                .flatMap(id -> salesRepository.findById(id))
+                .flatMap(entity -> Objects.isNull(entity) ? Mono.empty() : salesRepository.deleteById(entity.getId()));
     }
 }

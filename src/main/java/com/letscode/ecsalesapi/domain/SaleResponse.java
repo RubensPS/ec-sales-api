@@ -4,18 +4,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Map;
 
 @Getter
 @Setter
 public class SaleResponse {
     private String id;
-    private String userId;
+    private Integer userId;
     private String cartId;
     private BigDecimal totalSalePrice;
-    private ZonedDateTime dateCreated;
-    private Map<String, Long> products;
+    private Instant dateCreated;
+    private Map<String, BigDecimal> products;
 
     public SaleResponse(SaleEntity saleEntity) {
         this.id = saleEntity.getId();
