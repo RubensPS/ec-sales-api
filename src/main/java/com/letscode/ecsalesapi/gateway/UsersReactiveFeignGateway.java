@@ -8,6 +8,6 @@ import reactor.core.publisher.Mono;
 @ReactiveFeignClient(name = "ec-users-service")
 public interface UsersReactiveFeignGateway {
 
-    @GetMapping("users/user/{userId}")
+    @GetMapping("/users/user/{userId}")
     Mono<String> getUser(@PathVariable Integer userId);
 }
