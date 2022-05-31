@@ -26,6 +26,7 @@ public class SalesHandler {
         return request.bodyToMono(SaleRequest.class)
                 .flatMap(salesService::addSale)
                 .flatMap(salesRepository::save)
+                .flatMap(salesService::changeCartStatus)
                 .flatMap(saleEntity -> ServerResponse
                         .created(URI.create(String.format("/sales/%s", saleEntity.getId())))
                         .bodyValue(new SaleResponse(saleEntity)))

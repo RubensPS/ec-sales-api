@@ -32,7 +32,7 @@ public class SalesService {
                 Mono.just(saleRequest).flatMap(sale -> usersGateway.getUser(sale.getUserId())),
                 Mono.just(saleRequest).flatMap(sale -> cartsGateway.getActiveCarts(sale.getUserId())),
                 Mono.just(saleRequest).flatMap(sale -> productsGateway.checkProductSupply(sale.getCartId()))
-        ).map(tupla -> new SaleEntity(tupla.getT2()));
+        ).map(tuple -> new SaleEntity(tuple.getT2()));
     }
 
     public Flux<SaleEntity> getSalesByUser(SaleRequest saleRequest) {
@@ -51,5 +51,11 @@ public class SalesService {
                 .flatMap(entity -> Objects.isNull(entity) ? Mono.empty() : salesRepository.deleteById(entity.getId()));
     }
 
+    public Mono<SaleEntity> changeCartStatus(SaleEntity saleEntity) {
+        return Mono.zip(
+                Mono.just(saleEntity).flatMap(sale -> cartsGateway.changeCartStatus(sale.getCartId())),
+                Mono.just(saleEntity).flatMap(sale -> salesRepository.findById(sale.getId()))
+        ).map(tuple -> tuple.getT2());
+    }
 
 }
