@@ -54,9 +54,9 @@ public class SalesService {
     public Mono<SaleEntity> closeCartAndProducts(SaleEntity saleEntity) {
         return Mono.zip(
                 Mono.just(saleEntity).flatMap(sale -> cartsGateway.changeCartStatus(sale.getCartId())),
-                Mono.just(saleEntity).flatMap(sale -> salesRepository.findById(sale.getId())),
-                Mono.just(saleEntity).flatMap(sale -> productsGateway.subtractSaleFromSupply(sale.getProducts()))
-        ).map(tuple -> tuple.getT2());
+                Mono.just(saleEntity).flatMap(sale -> productsGateway.subtractSaleFromSupply(sale.getProducts())),
+                Mono.just(saleEntity).flatMap(sale -> salesRepository.findById(sale.getId()))
+        ).map(tuple -> tuple.getT3());
     }
 
 }
