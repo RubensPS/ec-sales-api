@@ -31,7 +31,8 @@ public class SalesService {
         return Mono.zip(
                 Mono.just(saleRequest).flatMap(sale -> usersGateway.getUser(sale.getUserId())),
                 Mono.just(saleRequest).flatMap(sale -> cartsGateway.getActiveCarts(sale.getUserId())),
-                Mono.just(saleRequest).flatMap(sale -> productsGateway.checkProductSupply(sale.getCartId()))
+                Mono.just(saleRequest).flatMap(sale -> productsGateway.checkProductSupply(sale.getCartId())),
+                Mono.just(saleRequest).flatMap(sale -> cartsGateway.changeCartStatus(sale.getCartId()))
         ).map(tupla -> new SaleEntity(tupla.getT2()));
     }
 

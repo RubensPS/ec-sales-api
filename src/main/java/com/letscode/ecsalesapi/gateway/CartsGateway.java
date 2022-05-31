@@ -17,5 +17,10 @@ public class CartsGateway {
                 .onErrorResume(FeignException.NotFound.class, error -> Mono.empty());
     }
 
+    public Mono<String> changeCartStatus(String cartId) {
+        return cartsReactiveFeignGateway.changeCartStatusonSale(cartId)
+                .onErrorResume(FeignException.NotFound.class, error -> Mono.empty());
+    }
+
 }
 
