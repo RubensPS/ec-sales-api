@@ -13,6 +13,6 @@ public class SaleCartRequest {
     private Integer userId;
     private Boolean isActiveStatus;
     private BigDecimal totalPrice;
-    private Map<String, BigDecimal> products;
+    private Map<String, Long> products;
 
 }

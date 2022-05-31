@@ -15,7 +15,7 @@ public class SaleResponse {
     private String cartId;
     private BigDecimal totalSalePrice;
     private Instant dateCreated;
-    private Map<String, BigDecimal> products;
+    private Map<String, Long> products;
 
     public SaleResponse(SaleEntity saleEntity) {
         this.id = saleEntity.getId();

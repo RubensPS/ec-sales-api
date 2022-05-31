@@ -24,7 +24,7 @@ public class SaleEntity {
     private Instant dateCreated;
 
     @Field
-    private Map<String, BigDecimal> products;
+    private Map<String, Long> products;
 
     public SaleEntity(SaleCartRequest saleCartRequest) {
         this.userId = saleCartRequest.getUserId();
