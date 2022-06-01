@@ -30,7 +30,7 @@ public class SalesHandler {
                 .flatMap(saleEntity -> ServerResponse
                         .created(URI.create(String.format("/sales/%s", saleEntity.getId())))
                         .bodyValue(new SaleResponse(saleEntity)))
-                .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("Invalid user. Check data imput."));
+                .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("AddSale returned empty. Check if the sale was finished properly."));
     }
 
     public Mono<ServerResponse> getSalesByUser(ServerRequest request) {
@@ -39,7 +39,7 @@ public class SalesHandler {
                 .collectList()
                 .flatMap(saleEntities -> ServerResponse
                         .ok().bodyValue(saleEntities))
-                .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("Invalid user. Check data imput."));
+                .switchIfEmpty(ServerResponse.unprocessableEntity().bodyValue("Couldn´t return sale with the user imput."));
 
     }
 
