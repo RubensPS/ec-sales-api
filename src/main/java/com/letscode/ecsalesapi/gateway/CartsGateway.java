@@ -12,7 +12,7 @@ public class CartsGateway {
 
     private final CartsReactiveFeignGateway cartsReactiveFeignGateway;
 
-    public Mono<SaleCartRequest> getActiveCarts(Integer userId) {
+    public Mono<SaleCartRequest> getActiveCarts(String userId) {
         return cartsReactiveFeignGateway.getActiveCart(userId)
                 .onErrorResume(FeignException.NotFound.class, error -> Mono.empty());
     }

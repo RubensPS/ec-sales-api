@@ -9,5 +9,5 @@ import reactor.core.publisher.Mono;
 public interface UsersReactiveFeignGateway {
 
     @GetMapping("/users/user/{userId}")
-    Mono<String> getUser(@PathVariable Integer userId);
+    Mono<String> getUser(@PathVariable String userId);
 }

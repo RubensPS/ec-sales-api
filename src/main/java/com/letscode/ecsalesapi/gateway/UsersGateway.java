@@ -11,7 +11,7 @@ public class UsersGateway {
 
     private final UsersReactiveFeignGateway usersReactiveFeignGateway;
 
-    public Mono<String> getUser(Integer userId) {
+    public Mono<String> getUser(String userId) {
         return usersReactiveFeignGateway.getUser(userId)
                 .onErrorResume(FeignException.NotFound.class, error -> Mono.empty());
     }

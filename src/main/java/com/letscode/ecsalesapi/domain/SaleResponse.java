@@ -5,17 +5,17 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Map;
+import java.util.HashMap;
 
 @Getter
 @Setter
 public class SaleResponse {
     private String id;
-    private Integer userId;
+    private String userId;
     private String cartId;
     private BigDecimal totalSalePrice;
     private Instant dateCreated;
-    private Map<String, Long> products;
+    private HashMap<String, Long> products;
 
     public SaleResponse(SaleEntity saleEntity) {
         this.id = saleEntity.getId();

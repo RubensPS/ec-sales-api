@@ -24,6 +24,7 @@ public class SalesHandler {
 
     public Mono<ServerResponse> addSale(ServerRequest request) {
         return request.bodyToMono(SaleRequest.class)
+                .log()
                 .flatMap(salesService::addSale)
                 .flatMap(salesRepository::save)
                 .flatMap(salesService::closeCartAndProducts)

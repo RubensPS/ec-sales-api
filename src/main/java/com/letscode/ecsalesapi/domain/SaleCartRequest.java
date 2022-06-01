@@ -10,7 +10,7 @@ import java.util.HashMap;
 @Setter
 public class SaleCartRequest {
     private String id;
-    private Integer userId;
+    private String userId;
     private Boolean isActiveStatus;
     private BigDecimal totalPrice;
     private HashMap<String, Long> products;

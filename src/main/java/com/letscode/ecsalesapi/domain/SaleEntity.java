@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class SaleEntity {
     @Id
     private String id;
-    private Integer userId;
+    private String userId;
     private String cartId;
     private BigDecimal totalSalePrice;
     private Instant dateCreated;

@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 public interface CartsReactiveFeignGateway {
 
     @GetMapping("/carts/cart/user/{userId}")
-    Mono<SaleCartRequest> getActiveCart(@PathVariable Integer userId);
+    Mono<SaleCartRequest> getActiveCart(@PathVariable String userId);
 
     @PatchMapping("carts/status/{cartId}")
     Mono<String> changeCartStatusonSale(@PathVariable String cartId);
