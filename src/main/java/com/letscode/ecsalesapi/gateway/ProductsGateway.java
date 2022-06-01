@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.Map;
+import java.util.HashMap;
 
 @Component
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class ProductsGateway {
                 .onErrorResume(FeignException.NotFound.class, error -> Mono.empty());
     }
 
-    public Mono<String> subtractSaleFromSupply(Map<String, Long> products) {
+    public Mono<String> subtractSaleFromSupply(HashMap<String, Long> products) {
         return productsReactiveFeignGateway.subtractSaleFromSupply(products)
                 .onErrorResume(FeignException.NotFound.class, error -> Mono.empty());
     }

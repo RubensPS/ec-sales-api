@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Map;
+import java.util.HashMap;
 
 @Document(collection = "sales")
 @Getter
@@ -24,7 +24,7 @@ public class SaleEntity {
     private Instant dateCreated;
 
     @Field
-    private Map<String, Long> products;
+    private HashMap<String, Long> products;
 
     public SaleEntity(SaleCartRequest saleCartRequest) {
         this.userId = saleCartRequest.getUserId();

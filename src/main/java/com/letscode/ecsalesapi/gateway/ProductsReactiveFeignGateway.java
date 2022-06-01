@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import reactivefeign.spring.config.ReactiveFeignClient;
 import reactor.core.publisher.Mono;
 
-import java.util.Map;
+import java.util.HashMap;
 
 @ReactiveFeignClient(name = "ec-products-service")
 public interface ProductsReactiveFeignGateway {
@@ -15,7 +15,7 @@ public interface ProductsReactiveFeignGateway {
     @GetMapping("/products/supply/{cartId}")
     Mono<Boolean> checkProductSupply(@PathVariable String cartId);
 
-    @PatchMapping("/products/supply/subtract")
-    Mono<String> subtractSaleFromSupply(@RequestBody Map<String, Long> products);
+    @PatchMapping("/products/supply/products")
+    Mono<String> subtractSaleFromSupply(@RequestBody HashMap<String, Long> products);
 
 }
